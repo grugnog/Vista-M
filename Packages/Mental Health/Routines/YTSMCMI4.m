@@ -1,28 +1,28 @@
 YTSMCMI4 ;BAL/KTL - MHAX ANSWERS SPECIAL HANDLING #2 ; 9/14/18 3:19pm
- ;;5.01;MENTAL HEALTH;**151,187,202,217**;Dec 30, 1994;Build 12
+ ;;5.01;MENTAL HEALTH;**151,187,202,217,221,234**;Dec 30, 1994;Build 38
  ;
  ; MCMI4
  ;
 DLLSTR(YSDATA,YS,YSTRNG) ;
- ;  YSTRNG = 1 Score Instrument
- ;  YSTRNG = 2 get Report Answers and Text
+ ;  YSTRNG = 1 Score Instr
+ ;  YSTRNG = 2 get Rpt Ans and Text
  N YSCNT,YSIND,CNT,YSCOD,YSINVRPT,YSCALRSL,YSRAWRSL,YSQANS,YSQANS2,YSQSCAL,YSNOGRPH,HIARR,SCALOD
  N YBRS,YPRS   ;Calc Base Rate, Calc PR
- N YSNOTE      ;Noteworthy Responses Array
- N HIHIT,GRSHIT ;High 3 Personality Scale Hit and Grossman Facet >75 Hit
+ N YSNOTE      ;Noteworthy
+ N HIHIT,GRSHIT ;High 3 Persnlty Scale Hit & Grossman >75 Hit
  S N=N+1
- D INICOD^YTSMCMIB  ;array YSCOD(scalename)=scalecode
- D INIBRS^YTSMCMIC  ;init YBRS(scalecode,"STR") -get possible Base Rate for each scale Raw
- D INIPRS^YTSMCMID  ;init YPRS(scalecode,"STR") -get possible Percentile for scale Raw (Facet)/Adj Base Rate (Non-Facet)
- D YSQ^YTSMCMIB     ;init YSQSCAL(scalcode)=questions.  Needed to chck if any scales are invalid.
+ D INICOD^YTSMCMIB  ;YSCOD(scalename)=scalecode
+ D INIBRS^YTSMCMIC  ;YBRS(scalecode,"STR") -get Base Rate for each scale Raw
+ D INIPRS^YTSMCMID  ;YPRS(scalecode,"STR") -get Percentile for scale Raw (Facet)/Adj Base Rate (Non-Facet)
+ D YSQ^YTSMCMIB     ;YSQSCAL(scalcode)=questions.  chck if any scales are invld.
  D DATA1
  I YSTRNG=1 Q
- ; Generate Report Sections
+ ; Genrate Rpt Sections
  D MODIND   ;Mod Indices
- D CPP      ;Clin Personality Patterns
- D SPP      ;Sevr Personality Path
- D CS       ;Clinical Syndromes
- D SCS      ;Sevr Clinical Syndromes
+ D CPP      ;Clin Patterns
+ D SPP      ;Sevr Path
+ D CS       ;Clinical Syndr
+ D SCS      ;Sevr Clinical Syndr
  D TOP3     ;3 Highest Grossman Scales
  D FACET    ;All Facet Scales
  D RSLWRN   ;Rsl Warning
@@ -31,24 +31,24 @@ DLLSTR(YSDATA,YS,YSTRNG) ;
  Q
 DATA1 ;Extract results&calc
  ;I YSTRNG=1, add up RAW values for scaleN calc adj BR and PR
- ;I YSTRNG=2, extract from saved values, Do rPT calcs
+ ;I YSTRNG=2, extract from saved values, Do rpt calcs
  I YSTRNG=1 D  Q
- .D EXTANS  ;Extract the T/F responses
+ .D EXTANS  ;Extrct T/F responses
  .D ^YTSMCMIA
  D LDSCORES^YTSCORE(.YSDATA,.YS)
- ;Extract Raw Scale Rsl;Get the High Point;Get the BR Adj Header;Get V rsl for Invalidity;Get W rsl for Inconsistency
+ ;Extract Raw Scale Rsl;Get the High Point;Get BR Adj Hdr;Get V rsl for Invalidity;Get W rsl for Inconsistency
  D EXTRSL,EXTANS,HIGHPT,BRADJH,INVDH,INCNH
- S YSINVRPT=$$INVRPT()  ; See if INVALID Report conditions
+ S YSINVRPT=$$INVRPT()  ; See if INVALID Rpt cond
  I YSINVRPT'="" D INVALID(YSINVRPT)
  D INVSCL  ;Any Scale invalid
- D ELEV    ;Top 3 Grossman Face
+ D ELEV    ;Top 3 Grossman
  D NOTEW   ;Noteworthy Responses
  Q
 INVRPT() ;
- ; Check for Invalid Report conditions
- ; Raw V > 1  ;Invalidity Index elevated
- ; Raw X > 114 ! Raw X < 7  ;Scale X outside acceptable range
- ; All Scales 1-8B Base Rate < 60  ; All scales too low
+ ; Check for Invalid Report
+ ; Raw V > 1  ;Invalidity Index elev
+ ; Raw X > 114 ! Raw X < 7  ;Scale X outside range
+ ; All Scales 1-8B Base Rate < 60  ; All scls too low
  ; Raw W > 19  ;Inconsistency Index elevated
  ; More than 13 responses skipped for X
  ; INVRPT of 1 = YES, INVALID
@@ -72,16 +72,20 @@ INVRPT() ;
  I CHK>13 S INVSTR="Scale X omits greater than 13" Q INVSTR
  ; Check all scale>13 omits
  S CHK=0,SCAL=""
- F  S SCAL=$O(YSQSCAL(SCAL)) Q:SCAL=""  D
- . S XQUES=YSQSCAL(SCAL)
- . F I=1:1:$L(XQUES,U) D
- .. S QUES=$P(XQUES,U,I) Q:QUES=""  Q:YSQANS(QUES)'="X"
- .. Q:$D(SKIPS(QUES))  ;already counted from another scale
- .. S CHK=CHK+1,SKIPS(QUES)=""
+ ;F  S SCAL=$O(YSQSCAL(SCAL)) Q:SCAL=""  D
+ ;. S XQUES=YSQSCAL(SCAL)
+ ;. F I=1:1:$L(XQUES,U) D
+ ;.. S QUES=$P(XQUES,U,I) Q:QUES=""  Q:YSQANS(QUES)'="X"
+ ;.. Q:$D(SKIPS(QUES))  ;already counted from another scale
+ ;.. S CHK=CHK+1,SKIPS(QUES)=""
+ S QUES="" F  S QUES=$O(YSQANS(QUES)) Q:QUES=""  D
+ . Q:YSQANS(QUES)'="X"
+ . Q:$D(SKIPS(QUES))
+ . S CHK=CHK+1,SKIPS(QUES)=""
  I CHK>13 S INVSTR="Invalid responses greater than 13" Q INVSTR
  Q ""
 INVALID(INVSTR) ;
- ; Text for invalid report
+ ; Text for invalid rpt
  N I,DONE
  S DONE=""
  S I="" F  S I=$O(YSDATA(I)) Q:I=""!(DONE=1)  D
@@ -106,7 +110,7 @@ INVSCL ;
  ..S YPRS(SCAL,"RSL")="-"
  Q
 EXTANS ;
- ;Extract the T/F from YSDATA array
+ ;Extract the T/F from YSDATA
  ;TRUE=1 FALSE=2
  N X,QUEST,ANS,STR,PTR,DATA
  S X=2
@@ -126,7 +130,7 @@ EXTRSL ;
  .S RAW=$P(VAL,U),YSRAWRSL(SCAL)=RAW
  .S BR=$P(VAL,U,2),BR=$$BRFIX^YTSMCMIA(BR),YBRS(SCAL,"RSL")=BR  ;PATCH X
  .S PR=$P(VAL,U,3),YPRS(SCAL,"RSL")=PR
- .S SCLNAM(SCAL)=I  ;^TMP($J,"YSCOR") by scalename to extract calculated results below
+ .S SCLNAM(SCAL)=I  ;^TMP($J,"YSCOR") by scalename-extract calculated results below
  D EX2
  Q
 EX2 ;T-SCORE NOT IN ^TMP($J,"YSCOR") 
@@ -139,7 +143,7 @@ EX2 ;T-SCORE NOT IN ^TMP($J,"YSCOR")
  .S YBRS(SCAL,"RSL")=BR
  .S YPRS(SCAL,"RSL")=PR
  Q
-HIGHPT ; Highpoint Header
+HIGHPT ; Highpoint Hdr
  S N=N+1
  N TEXT1,SCAL,SCALC,SCALSTR,SCALCOD,I,HI,DONE,SCALR
  S TEXT1=""
@@ -160,7 +164,7 @@ HIGHPT ; Highpoint Header
  I $L(TEXT1)>0 S TEXT1=$E(TEXT1,1,$L(TEXT1)-1)
  S YSDATA(N)="7771^9999;1^"_TEXT1
  Q
-BRADJH ; BR Adjustment Header
+BRADJH ; BR Adjustment Hdr
  N X,ACC,A,CC,TEXT1
  S TEXT1=""
  S X=YSRAWRSL("X Disclosure")
@@ -171,18 +175,18 @@ BRADJH ; BR Adjustment Header
  S:TEXT1="" TEXT1="None"
  S N=N+1,YSDATA(N)="7772^9999;1^"_TEXT1
  Q
-INVDH ; Invalidity Header
+INVDH ; Invalidity Hdr
  N TEXT1
  S TEXT1=$G(YSRAWRSL("V Invalidity"))
  S N=N+1,YSDATA(N)="7773^9999;1^"_TEXT1
  Q
-INCNH ; Inconsistency Header
+INCNH ; Inconsistency Hdr
  N TEXT1
  S TEXT1=$G(YSRAWRSL("W Inconsistency"))
  S N=N+1,YSDATA(N)="7774^9999;1^"_TEXT1
  S YSRAWRSL("W Inconsistency")=0
  Q
-CALCW ; Calculate the W Scale
+CALCW ; Calc the W Scale
  N PAIR
  S YSRAWRSL("W Inconsistency")=0
  F PAIR="22-170","125-143","47-157","40-181","81-116","85-126","76-150","25-94","44-121","39-59","17-184","33-89","78-164","38-171","74-115","46-154","26-99","20-174","32-122","13-112","55-110","173-194","95-127","60-162","15-149" D
@@ -196,7 +200,7 @@ WADD(PAIR) ;
  S ADD=$TR((Q1-Q2),"-")  ;W ?30,ADD
  S YSRAWRSL("W Inconsistency")=YSRAWRSL("W Inconsistency")+ADD
  Q
-ELEV ; Calc three highest Personality Scores from BR
+ELEV ; Calc 3 highest Personality Scores from BR
  ; Order of Importance after BR: S,C,P,1,2A,2B,3,4A,4B,5,6A,6B,7,8A,8B
  ; Result is HIARR("FINAL")
  N SCALSTR,SCAL,SCD,BR,TOPN,CNT,SCCOD,SCDF,SCALF,I,J
@@ -221,7 +225,7 @@ ELEV ; Calc three highest Personality Scores from BR
  ..S SCDF=SCD_"."_J,SCALF=SCCOD(SCDF)
  ..S HIARR("FINAL",I,J)=SCALF_U_SCDF_U_YSRAWRSL(SCALF)_U_YBRS(SCALF,"RSL")_U_YPRS(SCALF,"RSL")
  Q
-NOTEW ; Noteworthy Responses
+NOTEW ; Noteworthy
  ; Use YSQANS(question number)=1/2 (True/False)
  ;     YSQANS(question number,"PTR")=pointer to MH QUESTION
  N CNT,CAT,QUESTR,QUES,CATTOT
@@ -234,7 +238,7 @@ NOTEW ; Noteworthy Responses
  F QUES=92,119,138,163,165,179,190 D SETNOT
  I CATTOT<4 K YSNOTE(CNT)
  S CNT=CNT+1
- S CAT="Childood Abuse"
+ S CAT="Childhood Abuse"
  F QUES=47,157 D SETNOT
  S CNT=CNT+1
  S CAT="Eating Disorder"
@@ -409,7 +413,6 @@ RPTBLK1(ANS,SCALSTR) ;
  S N=N+1,YSDATA(N)=ANS_"^9999;1^"_STR
  Q
 MAKSTR(TXT,LEN,JUST,CHAR) ;
- ; Make a string, return STR 
  ;   TXT =Text
  ;   LEN =Total Len
  ;   JUST=R/L Justified, def=R
@@ -420,9 +423,12 @@ MAKSTR(TXT,LEN,JUST,CHAR) ;
  I $G(CHAR)="" S CHAR=" "
  I $G(JUST)="" S JUST="R"
  I JUST="L" D
- .S STR=TXT,$P(STR,CHAR,LEN-TXTL+1)=""
+ .S STR=TXT
+ .Q:(LEN-TXTL+1)'>1  ;String is full len, don't justify
+ .S $P(STR,CHAR,LEN-TXTL+1)=""
  I JUST="R" D
- .S $P(STR,CHAR,LEN-TXTL+1)="",STR=STR_TXT
+ .I (LEN-TXTL+1)>1 S $P(STR,CHAR,LEN-TXTL+1)=""
+ .S STR=STR_TXT
  S:STR[$C(0) STR=$TR(STR,$C(0)," ")  ;XLAT out $C(0)
  Q STR
 MAKGRP(NUM,MAX) ;
@@ -431,7 +437,7 @@ MAKGRP(NUM,MAX) ;
  S LEN=50  ;Graph #of Chars.
  I NUM="-"!($G(YSNOGRPH)=1) D  Q GRP
  .S GRP=$$MAKSTR("",LEN,"L")
- S NCHAR=LEN/MAX*NUM,RND=$P(NCHAR,".",2),NCHAR=$P(NCHAR,".")
+ S NCHAR=LEN/MAX*NUM,RND="."_$P(NCHAR,".",2),NCHAR=$P(NCHAR,".")
  I RND>.5 S NCHAR=NCHAR+1
  S $P(GRP,"*",NCHAR+1)="",GRP=$$MAKSTR(GRP,LEN,"L")
  Q GRP

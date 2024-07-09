@@ -1,5 +1,5 @@
 YTSCAT ;SLC/KCM - CAT Scoring and Reporting ; 6/30/2021
- ;;5.01;MENTAL HEALTH;**182,199,202,217**;DEC 30,1994;Build 12
+ ;;5.01;MENTAL HEALTH;**182,199,202,217,221,234**;DEC 30,1994;Build 38
  ;
 DLLSTR(YSDATA,YS,YSMODE) ; main tag for both scores and report text
  ;.YSDATA(1)=[DATA]
@@ -63,13 +63,16 @@ REPORT(YSDATA,YS) ; add textual scores to report
  . I TTYP="a/adhd" D ADDSCORE(I,"cate^seve^prec")
  . I TTYP="sdoh" D ADDSCORE(I,"cate^seve^prec")
  . I TTYP="ss" D ADDSCORE(I,"cate^seve^prec")
- . I TTYP="ptsd-dx" D ADDSCORE(I,"diag^prob")
+ . I TTYP="ptsd-dx" D ADDSCORE(I,"diag^ptsd")     ; special prob wording
  . I TTYP="ptsd-e" D ADDSCORE(I,"cate^seve^prec")
  . I TTYP="psy-c" D ADDSCORE(I,"cate^seve^prec")
  . I TTYP="psy-s" D ADDSCORE(I,"cate^seve^prec")
- . I $D(TREE("report","tests",I,"items"))>1 S ALLANS=0 D TM4TEST(I),QA4TEST(I)
+ . I $D(TREE("report","tests",I,"items"))>1 S ALLANS=0 D
+ . . D TM4TEST(I)
+ . . I TTYP="ptsd-dx" D ADDPTSD
+ . . D QA4TEST(I)
  ;
- I ALLANS D QA4ALL
+ I ALLANS D QA4ALL                                ; prior to itemLevel=1 chg
  S I=$O(YSDATA(""),-1)+1
  S YSDATA(I)="7771^9999;1^"_SCORTXT               ; scoring text
  S YSDATA(I+1)="7772^9999;1^"_TSTTXT              ; test names for note
@@ -133,7 +136,13 @@ ADDSCORE(SEQ,WHICH) ; return a block of text with the appropriate scores
  . I X="cate" D ADDLN("|   Category:    "_$G(TREE("report","tests",SEQ,"category")))
  . I X="prec" D ADDLN("|   Precision:   "_$G(TREE("report","tests",SEQ,"precision")))
  . I X="prob" D ADDLN("|   Probability: "_$J(+$G(TREE("report","tests",SEQ,"prob")),1,3))
+ . I X="ptsd" D ADDLN("|   Probability of PTSD*: "_$J(+$G(TREE("report","tests",SEQ,"prob")),1,3))
  . I X="perc" D ADDLN("|   Percentile:  "_$G(TREE("report","tests",SEQ,"percentile")))
+ Q
+ADDPTSD ; add interpretive text for CAD-PTSD-DX
+ ; expects SCORTXT
+ N I,X
+ F I=1:1 S X=$P($T(TXTPTSD+I),";;",2,99) Q:X="zzzzz"  D ADDLN(X)
  Q
 ADDLN(TXT) ; add a line of text
  ; expects SCORTXT from REPORT>ADDSCORE
@@ -189,10 +198,10 @@ TMSTR(ATIME) ; return a readable elapsed time
  Q X
  ;
 WP2JSON(YSDATA,TREE) ; put YSDATA answer into M-subscript format
- N I,J,K,L,JSON
+ N I,J,K,L,S,JSON
  S I=2,K=0 F  S I=$O(YSDATA(I)) Q:'I  Q:$P(YSDATA(I),U)'=8650  D
  . S L=$P(YSDATA(I),"^",3,99)
- . F J=1:1:$L(L,"|") S K=K+1,JSON(K)=$P(L,"|",J)
+ . F J=1:1:$L(L,"|") S S=$P(L,"|",J) I $L(S) S K=K+1,JSON(K)=S
  D DECODE^XLFJSON("JSON","TREE")
  Q
 WRAP(IN,MAX,PRE) ; Return with | and spacing in correct place
@@ -204,3 +213,12 @@ WRAP(IN,MAX,PRE) ; Return with | and spacing in correct place
  S X=TXT(1),I=1 F  S I=$O(TXT(I)) Q:'I  S X=X_TXT(I)
  Q X
  ;
+TXTPTSD ; Interpretive text for CAD-PTSD-DX
+ ;;||  *The "Probability of PTSD" score, which ranges from 0 to 1, can be used
+ ;;|   as a measure of how confident you can be in the predicted diagnosis -
+ ;;|   e.g., 0.10 (very unlikely) . 0.50 (equivocal) . 0.90 (very likely).
+ ;;|   A mid-range score between 0.25-0.75 should be interpreted as somewhat
+ ;;|   equivocal, meaning that additional information is needed to make an
+ ;;|   accurate diagnosis; scores at either the low or high end of the range 
+ ;;|   provide more confidence in the diagnosis presented.|
+ ;;zzzzz

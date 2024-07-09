@@ -1,5 +1,5 @@
 PSOPTPST ;BIR/DSD - Post Patient Selection Action ;07/25/96
- ;;7.0;OUTPATIENT PHARMACY;**7,71,88,146,157,143,225**;DEC 1997;Build 29
+ ;;7.0;OUTPATIENT PHARMACY;**7,71,88,146,157,143,225**;DEC 1997;Build 0
  ;External reference to SDCO22 supported by DBIA 1579
  ;External reference to IBE(350.1,"ANEW" supported by DBIA 592
  ;External reference to PS(55 supported by DBIA 2228

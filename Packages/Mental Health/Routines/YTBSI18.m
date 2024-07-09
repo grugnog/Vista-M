@@ -1,5 +1,6 @@
 YTBSI18 ;ALB/ASF-BRIEF SYMPTOM INVENTORY 18 ;8/1/02  12:24
- ;;5.01;MENTAL HEALTH;**76**;Dec 30, 1994
+ ;;5.01;MENTAL HEALTH;**76,234**;Dec 30, 1994;Build 38
+ ;
 MAIN ;
  N X,T,J,RR,T,X,X1,YSAVE,YSINV
  S (T,X1,YSINV)=0
@@ -43,13 +44,15 @@ ANX ;
  . S:X1>2 $P(R,U,1)=-1
  Q
 TSCOR ;
- F I=1:1:8 S $P(S,U,I)=$P(^YTT(601,YSTEST,"S",I,YSSX),U,$P(R,U,I)+1)
+ N YSRSX
+ S YSRSX=$S($L($P($G(VADM(5)),U)):$P(VADM(5),U),1:YSSX)
+ F I=1:1:8 S $P(S,U,I)=$P(^YTT(601,YSTEST,"S",I,YSRSX),U,$P(R,U,I)+1)
  Q
 REPT ;
  D DTA^YTREPT
  S X=$P(^YTT(601,YSTEST,"P"),U)
  W !!?(72-$L(X)\2),X
- I YSINV W !!,"Invaild administration: too many ommisions" Q  ;--> out
+ I YSINV W !!,"Invalid administration: too many omissions" Q  ;--> out
  W !!?10,"Community Norms"
  W !?31,"Raw   Tscore",!
  F J=1:1:4 D:IOST?1"C-".E&($Y>21) SCR^YTREPT Q:YSTOUT!YSUOUT  W !?3,$P(^YTT(601,YSTEST,"S",J,0),U,2),?30,$J($P(R,U,J),4,0),?35,$J($P(S,U,J),4,0)
@@ -57,4 +60,7 @@ REPT ;
  W !?31,"Raw   Tscore",!
  F J=5:1:8 D:IOST?1"C-".E&($Y>21) SCR^YTREPT Q:YSTOUT!YSUOUT  W !?3,$P($P(^YTT(601,YSTEST,"S",J,0),U,2),"("),?30,$J($P(R,U,J),4,0),?35,$J($P(S,U,J),4,0)
  Q
-TEST S YS("DFN")=YSDFN,YS("ADATE")=DT,YS("CODE")="BSI18" D SCOREIT^YTAPI2(.YSDATA,.YS)
+TEST ;
+ N YS,YSDATA
+ S YS("DFN")=YSDFN,YS("ADATE")=DT,YS("CODE")="BSI18" D SCOREIT^YTAPI2(.YSDATA,.YS)
+ Q

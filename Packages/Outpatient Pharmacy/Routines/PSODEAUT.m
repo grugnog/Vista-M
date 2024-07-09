@@ -1,5 +1,5 @@
-PSODEAUT ;ALB/BI - DEA MANUAL ENTRY ;05/15/2018
- ;;7.0;OUTPATIENT PHARMACY;**529,684**;DEC 1997;Build 57
+PSODEAUT ;ALB/BI - DEA MANUAL ENTRY ;10/30/23  13:47
+ ;;7.0;OUTPATIENT PHARMACY;**529,684,731,743**;DEC 1997;Build 24
  ;External reference to sub-file NEW DEA #S (#200.5321) is supported by DBIA 7000
  ;External reference to DEA BUSINESS ACTIVITY CODES file (#8991.8) is supported by DBIA 7001
  ;External reference to DEA NUMBERS file (#8991.9) is supported by DBIA 7002
@@ -37,7 +37,7 @@ DEALIST(RET,NPIEN)  ; -- RPC to return a List of DEA numbers and information for
  . S RET(CNT)=RET(CNT)_NPDEADAT(200.5321,IENS,.01)_"^"        ; NEW PERSON DEA NUMBER
  . S RET(CNT)=RET(CNT)_NPDEADAT(200.5321,IENS,.02)_"^"        ; INDIVIDUAL DEA SUFFIX
  . S RET(CNT)=RET(CNT)_DNDEADAT(8991.9,DNDEAIEN_",",1.6)_"^"  ; STATE
- . S RET(CNT)=RET(CNT)_DNDEADAT(8991.9,DNDEAIEN_",",.03)_"^"  ; DETOX NUMBER
+ . S RET(CNT)=RET(CNT)_""_"^"                                 ; DETOX NUMBER ;P731 detox/x-waiver removal
  . S RET(CNT)=RET(CNT)_DNDEADAT(8991.9,DNDEAIEN_",",.04)_"^"  ; EXPIRATION DATE
  . S RET(CNT)=RET(CNT)_IENS_"^"                               ; NEW PERSON IENS
  . S RET(CNT)=RET(CNT)_DNDEAIEN_"^"                           ; DEA NUMBERS IEN
@@ -116,19 +116,9 @@ DEADOJ(RET,DEA)  ; -- RPC to return DEA Information for a single DEA Number
  Q
  ;
 DEAREM(RET,NPIEN,DEATXT)  ; Functionality to remove a DEA multiple from file #200, Field 53.21
- ; INPUT:  NPIEN - NEW PERSON FILE #200 INTERNAL ENTRY NUMBER
- ;         DEATXT - PROPERLY FORMATTED DEA NUMBER
- ; OUTPUT: RET - 1 for SUCCESS, 0 for UNSUCCESSFUL
- N FDA,IENS,MSGROOT,NPDEAIEN,DNDEAIEN,DEATYPE,DA,DIE,DR
- S RET=0 Q:'$G(NPIEN)  Q:$G(DEATXT)=""
- S NPDEAIEN=$O(^VA(200,NPIEN,"PS4","B",DEATXT,0)) I 'NPDEAIEN Q
- S DNDEAIEN=$$GET1^DIQ(200.5321,NPDEAIEN_","_NPIEN_",",.03,"I")
- S DEATYPE=$$GET1^DIQ(8991.9,DNDEAIEN,.07,"I")
- S FDA(1,200.5321,NPDEAIEN_","_NPIEN_",",.01)="@"
- S FDA(2,8991.9,DNDEAIEN_",",.01)="@"
- D UPDATE^DIE(,"FDA(1)",,"MSGROOT") Q:$D(MSGROOT)
- I DNDEAIEN,DEATYPE=2 D UPDATE^DIE(,"FDA(2)",,"MSGROOT") Q:$D(MSGROOT)
- S RET=1
+ N RETURN S RETURN=""
+ D DELMULT^PSOEPUT2(.RETURN,NPIEN,DEATXT)
+ S RET=RETURN
  Q
  ;
 VIEWFM(RET,DEA)  ; -- Request for DEA Information stored in DEA NUMBERS FILE #8991.9, Return DEA Information in RET
@@ -311,6 +301,7 @@ DUPCHK(RET,DEATXT,SUFFIX)  ; -- Check for duplicate DEA number or duplicate SUFF
  Q
  ;
 DETOXCHK(BAC)  ; -- Test Business Activity Code for DEXTOX (DW)
+ Q 0 ;P731 detox/x-waiver removal
  N BACIEN
  I $G(BAC)="" Q 0
  I '$D(^XTV(8991.8,"B",BAC)) Q 0
@@ -319,6 +310,7 @@ DETOXCHK(BAC)  ; -- Test Business Activity Code for DEXTOX (DW)
  Q 0
  ;
 DETOXDUP(DEA,DETOX,DUPDEA)  ; -- Check for duplicate Detox number
+ Q "" ;P731 detox/x-waiver removal
  N I,NXTDET S NXTDEA=0,DUPDEA=""
  I $G(DETOX)=""!($G(DEA)="") Q 0                   ; Missing required input, can't check
  I '$D(^XTV(8991.9,"D",$G(DETOX))) Q 0             ; If Detox not on file, not a duplicate
@@ -357,6 +349,7 @@ CLEARDTX(NPIEN)  ; REMOVE DETOX NUMBERS FROM ALL OF A PROVIDERS DEA NUMBERS
  Q
  ;
 GETDNDTX(NPIEN,DNDEAX)  ; GET A SINGLE DETOX NUMBER FROM ALL OF A PROVIDERS DEA NUMBERS IN 8991.9
+ Q "" ;P731 detox/x-waiver removal
  N GETDNDTX,DNDEAIEN,NPDEAIEN S GETDNDTX=""
  K DNDEAX
  S NPDEAIEN=0 F  S NPDEAIEN=$O(^VA(200,NPIEN,"PS4",NPDEAIEN)) Q:'NPDEAIEN  Q:$L(GETDNDTX)  D

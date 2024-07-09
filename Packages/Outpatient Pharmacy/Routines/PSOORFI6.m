@@ -1,5 +1,5 @@
 PSOORFI6 ;BIR/SJA - finish cprs orders cont. ;Nov 30, 2021@08:00:07
- ;;7.0;OUTPATIENT PHARMACY;**225,505,441**;DEC 1997;Build 208
+ ;;7.0;OUTPATIENT PHARMACY;**225,505,441**;DEC 1997;Build 0
  ;External reference to ^PSDRUG supported by DBIA 221
  ;External references PSOL, and PSOUL^PSSLOCK supported by DBIA 2789
  ;External reference to ^DPT supported by DBIA 10035

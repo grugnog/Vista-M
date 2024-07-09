@@ -1,5 +1,5 @@
-SDESRTVCLN2 ;ALB/MGD,ANU,LAB,MGD,ANU,JAS,LAB - Get Clinic Info based on Clinic IEN ;FEB 13,2023
- ;;5.3;Scheduling;**823,825,827,828,833,836**;Aug 13, 1993;Build 20
+SDESRTVCLN2 ;ALB/MGD,ANU,LAB,MGD,ANU,JAS,LAB,DJS,JAS,LAB,BWF - Get Clinic Info based on Clinic IEN ;DEC 5, 2023
+ ;;5.3;Scheduling;**823,825,827,828,833,836,851,864,867,871**;Aug 13, 1993;Build 13
  ;;Per VHA Directive 6402, this routine should not be modified
  ;
  ; Documented API's and Integration Agreements
@@ -27,6 +27,7 @@ JSONCLNINFO(RETSDCLNJSON,SDCLNIEN,SDEAS,HASHFLG) ;Get Clinic info
  ;"CheckinCheckoutTime": "",
  ;"ClinicIEN": 2174,
  ;"ClinicName": "STPDN-M",
+ ;"ClinicStatus": "ACTIVE" or "INACTIVE"
  ;"CreditStopCodeAMISNum": "",
  ;"CreditStopCodeName": "",
  ;"CreditStopCodeNum": "",
@@ -55,6 +56,10 @@ JSONCLNINFO(RETSDCLNJSON,SDCLNIEN,SDEAS,HASHFLG) ;Get Clinic info
  ;"PreCheckinAllowed": "",
  ;"Principal": "",
  ;"ProhibitAccessToClinic": "",
+ ;"Provider": {
+ ; "DefaultForClinic": "",
+ ; "IEN": "",
+ ; "Name": ""},
  ;"Reactivate Date": "",
  ;"ReqActionProfiles": "",
  ;"ReqXrayFilms": "",
@@ -133,9 +138,9 @@ VALIDATEHASHFLG(ERRORS,HASHFLG) ;
  ;
 BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
  ;
- N SDFIELDS,SDDATA,SDMSG,SDX,SDC,TIMEZONE,TIMEZONEEXC,USRCNT,USRIEN
+ N SDFIELDS,SDDATA,SDMSG,SDX,SDC,TIMEZONE,TIMEZONEEXC,USRCNT,USRIEN,STATUS,SDSTATUS,RESIEN
  S SDECI=$G(SDECI,0)
- S SDFIELDS=".01;1;3.5;8;9;10;24;60;61;62;1914;2502;2504;2505;2506;2507;2802;99;99.1;2000;2000.5;2508;2509;2510;2511;2801;30;2001;2002;1918.5;2503;2500;1916;1918;20;21;1912;1913;1917"
+ S SDFIELDS=".01;1;3.5;8;9;10;24;60;61;62;200;1914;2502;2504;2505;2506;2507;2802;99;99.1;2000;2000.5;2508;2509;2510;2511;2801;30;2001;2002;1918.5;2503;2500;1916;1918;20;21;1912;1913;1917"
  D GETS^DIQ(44,SDCLNIEN_",",SDFIELDS,"IE","SDDATA","SDMSG")
  S SDECI=SDECI+1
  S SDCLNSREC("Clinic","ClinicIEN")=$G(SDCLNIEN) ;Clinic IEN
@@ -150,6 +155,8 @@ BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
  S SDCLNSREC("Clinic","NonCountClinic")=$G(SDDATA(44,SDCLNIEN_",",2502,"E")) ;NON-COUNT CLINIC? (Y OR N)
  S SDCLNSREC("Clinic","DivisionIEN")=$G(SDDATA(44,SDCLNIEN_",",3.5,"I")) ;Division
  S SDCLNSREC("Clinic","DivisionName")=$G(SDDATA(44,SDCLNIEN_",",3.5,"E")) ;Division
+ S STATUS=$$INACTIVE^SDESUTIL(SDCLNIEN,DT),SDSTATUS=$S(STATUS=0:"ACTIVE",1:"INACTIVE") ;Get status of clinic
+ S SDCLNSREC("Clinic","ClinicStatus")=SDSTATUS
  S SDCLNSREC("Clinic","StopCodeName")=$G(SDDATA(44,SDCLNIEN_",",8,"E")) ;Stop Code Name
  S SDCLNSREC("Clinic","StopCodeNum")=$G(SDDATA(44,SDCLNIEN_",",8,"I")) ;Stop Code IEN
  S SDCLNSREC("Clinic","StopCodeAMISNum")=$$GET1^DIQ(40.7,$G(SDDATA(44,SDCLNIEN_",",8,"I")),1) ;Stop Code AMIS Number
@@ -188,6 +195,7 @@ BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
  S SDCLNSREC("Clinic","TimezoneException")=TIMEZONEEXC
  S SDCLNSREC("Clinic","Inactivate Date")=$$FMTISO^SDAMUTDT($G(SDDATA(44,SDCLNIEN_",",2505,"I"))) ;Inactivate Date
  S SDCLNSREC("Clinic","Reactivate Date")=$$FMTISO^SDAMUTDT($G(SDDATA(44,SDCLNIEN_",",2506,"I"))) ;Reactivate Date
+ S SDCLNSREC("Clinic","PbspID")=$G(SDDATA(44,SDCLNIEN_",",200,"E"))
  ; Get CHAR4 Data
  N CHAR4
  S CHAR4=$$CHAR4^SDESUTIL($G(SDDATA(44,SDCLNIEN_",",.01,"E")))
@@ -204,10 +212,11 @@ BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
  S SDX="",SDC=0
  S SDFIELDS="2600*"
  K SDDATA,SDMSG
- D GETS^DIQ(44,SDCLNIEN_",",SDFIELDS,"E","SDDATA","SDMSG")
+ D GETS^DIQ(44,SDCLNIEN_",",SDFIELDS,"IE","SDDATA","SDMSG")
  F  S SDX=$O(SDDATA(44.1,SDX)) Q:SDX=""  D
  . S SDC=SDC+1
  . S SDCLNSREC("Clinic","Provider",SDC,"Name")=$G(SDDATA(44.1,SDX,.01,"E"))
+ . S SDCLNSREC("Clinic","Provider",SDC,"IEN")=$G(SDDATA(44.1,SDX,.01,"I"))
  . S SDCLNSREC("Clinic","Provider",SDC,"DefaultForClinic")=$G(SDDATA(44.1,SDX,.02,"E"))
  ; Diagnosis Multiple
  S SDX="",SDC=0
@@ -226,6 +235,13 @@ BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
  .S SDCLNSREC("Clinic","PrivilegedUser",USRCNT,"Name")=$$GET1^DIQ(44.04,USRIEN_","_SDCLNIEN,.01)
  ;I USRCNT=0 S SDCLNSREC("Clinic","PrivilegedUser","Error",1)="No privileged users are found."
  ;
+ ; get resource IEN
+ S RESIEN=""
+ F  S RESIEN=$O(^SDEC(409.831,"ALOC",$G(SDCLNIEN),RESIEN)) Q:(RESIEN="")!$D(SDCLNSREC("Clinic","Resource IEN"))  D
+ . I $$GET1^DIQ(409.831,RESIEN,.012,"E")="CLINIC" D
+ . . S SDCLNSREC("Clinic","Resource IEN")=RESIEN
+ S RESIEN=$O(^SDEC(409.831,"ALOC",$G(SDCLNIEN),RESIEN))
+ ;
  I $D(SDCLNSREC("Clinic")) Q 1
  S SDCLNSREC("Clinic")=""
  Q 0
@@ -233,3 +249,4 @@ BLDCLNREC(SDCLNSREC,SDCLNIEN) ;Get Clinic data
 CLEANUP ; kill vars
  K RETURN,HASFIELDS,ELGFIELDSARRAY,ELGRETURN,SDECI,ERRORS
  Q
+ ;

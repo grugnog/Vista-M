@@ -1,7 +1,7 @@
 SDHL7APU ;MS/TG,PH - TMP HL7 Routine;OCT 16, 2018
- ;;5.3;Scheduling;**704,714,773,780,798,810**;AUG 17, 2018;Build 3
- ;
+ ;;5.3;Scheduling;**704,714,773,780,798,810,859,863**;Aug 13, 1993;Build 14
  ;  Integration Agreements:
+ ;
  Q
  ;
  ;Helper routine to process SIU^S12 messages from the "TMP VISTA" Subscriber protocol
@@ -18,7 +18,7 @@ SCH(SCH,INP,MSGARY) ;
  S MSGARY("EVENT")=$G(SCH(6,1,1))  ;if the appointment is canceled check for cancel code and cancel reason, they are required
  S (SDECCR,CANCODE)=$G(SCH(6,1,2))
  I $G(MSGARY("EVENT"))="CANCELED" D
- . Q:$G(SDECCR)=""
+ . I $G(SDECCR)="" S ERR=1,ERRTXT="Cancel Reason was null and is required" Q     ;859-add reject condition
  . S SDECCR=$O(^SD(409.2,"B",$G(CANCODE),0))
  . S:(SDECCR)="" SDECCR=11
  . S SDECTYP=$G(SCH(6,1,4))
@@ -31,8 +31,8 @@ SCH(SCH,INP,MSGARY) ;
  S:$G(TM)'="" SDECSTART=$P(TM,":",1,2)_":00.000Z"
  ;S INP(11)=$G(SDDDT)
  S SDREQBY=$G(SCH(16,1,1))
- N SCHEMAIL S SCHEMAIL=$$LOW^XLFSTR(SCH(13,1,4))
- S (DUZ,MSGARY("DUZ"))=$O(^VA(200,"ADUPN",$G(SCHEMAIL),""))
+ N SCHEMAIL I $G(SCH(13,1,4))'="" D
+ .S SCHEMAIL=$$LOW^XLFSTR(SCH(13,1,4)),(DUZ,MSGARY("DUZ"))=$O(^VA(200,"ADUPN",$G(SCHEMAIL),""))
  S:$G(DUZ)'>0 (DUZ,MSGARY("DUZ"))=.5
  N SDTYP S SDTYP=$G(SCH(6,1,4))
  I $G(SDTYP)="R" D
@@ -415,6 +415,7 @@ APPTYPE(CL) ;Determines APPTYPE by STOP CODES associated with CLINIC (SD*5.3*780
 GETSTA(STA) ;Return Parent STA or self if No parent
  N PSTA S:($E(STA,4,5)="A")!($E(STA,4,5)="B") STA=+STA S PSTA=+$P($$PRNT^XUAF4(STA),U,2)
  Q $S(PSTA:PSTA,1:STA)
+ ;
 ERRS ;
  ;;already has appt at^Patient already has an appt at that datetime
  ;;already has appt at^Patient already has an appt
@@ -444,3 +445,15 @@ ERRS ;
  ;;Cancelled by patient appointment cannot be uncancelled.^Cannot be uncancelled
  ;;FileMan add toS DPT error: Patient=^FileMan add toS DPT error
  ;;Another user is working with this patient's record.  Please try again later^Patient record locked
+ ;;
+ ;
+ACK ;****BUILD THE RESPONSE MSA (Cont. of SDHL7APT)
+ K @MSGROOT
+ N HLA,ERR,LEN,FOUNDCN
+ D INIT^HLFNC2(EIN,.HL)
+ S HL("FS")="|",HL("ECH")="^~\&"
+ S (ERR,FOUNDCN)=0
+ S HL("MID")=$S($G(HL("MID")):HL("MID"),1:ACKMSG)
+ S HLA("HLA",1)="MSA"_HL("FS")_$S(ERRCND:"AE",1:"AA")_HL("FS")_HL("MID")_HL("FS")_$S(ERRCND:$E(ERRTXT,1,52),1:"")_HL("FS")
+ D GENACK^HLMA1(HL("EID"),HLMTIENS,HL("EIDS"),"LM",1,.MYRESULT)
+ Q

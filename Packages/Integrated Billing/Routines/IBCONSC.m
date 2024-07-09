@@ -1,5 +1,5 @@
 IBCONSC ;ALB/MJB,SGD,AAS,RLW - NSC W/INSURANCE OUTPUT ;06 JUN 88 13:51
- ;;2.0;INTEGRATED BILLING;**66,120,528**;21-MAR-94;Build 163
+ ;;2.0;INTEGRATED BILLING;**66,120,528,752,763**;21-MAR-94;Build 29
  ;;Per VA Directive 6402, this routine should not be modified.
  ;
  ;
@@ -89,9 +89,13 @@ UPCT ; Update Claims Tracking
  ;
 OUT() ;
  N DIR,DIROUT,DIRUT,DTOUT,DUOUT,X,Y
+ I $G(IBINPT)'=2 S Y="R" G OUTQT  ; IB*752/DTG no excel for inpt/otpt
  W !
  S DIR(0)="SA^E:Excel;R:Report"
  S DIR("A")="(E)xcel Format or (R)eport Format: "
  S DIR("B")="Report"
- D ^DIR I $D(DIRUT) Q ""
+ ;D ^DIR I $D(DIRUT) Q ""
+ D ^DIR I $D(DIRUT) S Y="" G OUTQT  ;IB*752/DTG common quit point
+ ;
+OUTQT ; Exit point  ; IB*752/DTG new exit point
  Q Y

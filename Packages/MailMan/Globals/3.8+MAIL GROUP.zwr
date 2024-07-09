@@ -1,6 +1,6 @@
 OSEHRA ZGO Export: MAIL GROUP
 ZWR
-^XMB(3.8,0)="MAIL GROUP^3.8^358^341"
+^XMB(3.8,0)="MAIL GROUP^3.8^360^342"
 ^XMB(3.8,1,0)="POSTMASTER^PU^y^3^2971212^"
 ^XMB(3.8,1,3)=1
 ^XMB(3.8,2,0)="EN PROJECTS^PU^y^^^"
@@ -558,7 +558,7 @@ ZWR
 ^XMB(3.8,118,2,1,0)="This mail group will receive messages concerning errors with the results"
 ^XMB(3.8,118,2,2,0)="from the CareVue system."
 ^XMB(3.8,118,3)=""
-^XMB(3.8,119,0)="LMI^PU^y^13^3220915^^.5"
+^XMB(3.8,119,0)="LMI^PU^y^14^3230901^^.5"
 ^XMB(3.8,119,1,0)="^3.81P^4^4"
 ^XMB(3.8,119,1,1,0)=1
 ^XMB(3.8,119,1,2,0)=17
@@ -677,7 +677,7 @@ ZWR
 ^XMB(3.8,137,2,2,0)="from file 354.71 cannot be transmitted to at least one of the patient's"
 ^XMB(3.8,137,2,3,0)="treating facilities for at least 2 days."
 ^XMB(3.8,137,3)=""
-^XMB(3.8,138,0)="XUMF SERVER^PU^^24^3200430^0^1"
+^XMB(3.8,138,0)="XUMF SERVER^PU^^26^3240307^0^1"
 ^XMB(3.8,138,1,0)="^3.81P^1^1"
 ^XMB(3.8,138,1,1,0)=1
 ^XMB(3.8,138,1,"B",1,1)=""
@@ -697,7 +697,7 @@ ZWR
 ^XMB(3.8,140,2,0)="^^2^2^3010313^"
 ^XMB(3.8,140,2,1,0)="Mail group to send messages regarding accessing images on offline"
 ^XMB(3.8,140,2,2,0)="jukebox platters."
-^XMB(3.8,141,0)="MAG SERVER^PU^y^486^3230627^0"
+^XMB(3.8,141,0)="MAG SERVER^PU^y^507^3240601^0"
 ^XMB(3.8,141,1,0)="^3.81P^1^1"
 ^XMB(3.8,141,1,1,0)=1
 ^XMB(3.8,141,1,"B",1,1)=""
@@ -911,13 +911,13 @@ ZWR
 ^XMB(3.8,176,2,1,0)="This mail group is used to notify Patient Record Flag administrators of "
 ^XMB(3.8,176,2,2,0)="transmission errors that occur during the processing of HL7 messages."
 ^XMB(3.8,176,3)=1
-^XMB(3.8,177,0)="IBCNE EIV MESSAGE^PU^y^10^3220103^^1"
+^XMB(3.8,177,0)="IBCNE EIV MESSAGE^PU^y^11^3230919^^1"
 ^XMB(3.8,177,2,0)="^3.801^2^2^3170308^^^^"
 ^XMB(3.8,177,2,1,0)="This mail group will be used to deliver notifications for"
 ^XMB(3.8,177,2,2,0)="the Insurance Verification process."
 ^XMB(3.8,177,3)=1
 ^XMB(3.8,177,6,0)="^3.812^^0"
-^XMB(3.8,178,0)="GMPL CODE SET VERSION UPDATES^PU^n^7^3230330^^1"
+^XMB(3.8,178,0)="GMPL CODE SET VERSION UPDATES^PU^n^9^3240401^^1"
 ^XMB(3.8,178,2,0)="^3.801^2^2^3030414^^^"
 ^XMB(3.8,178,2,1,0)="This mail group will be used to send information about the status of ICD9 "
 ^XMB(3.8,178,2,2,0)="codes attached to problems on problem selection lists."
@@ -982,7 +982,7 @@ ZWR
 ^XMB(3.8,189,2,1,0)="Members of this mail group will receive weekly mail messages regarding"
 ^XMB(3.8,189,2,2,0)="the HL7 transmission of the Transitional Pharmacy Benefit data."
 ^XMB(3.8,189,3)=1
-^XMB(3.8,190,0)="GMRA REQUEST NEW REACTANT^PU^n^17^3230622^^1"
+^XMB(3.8,190,0)="GMRA REQUEST NEW REACTANT^PU^n^18^3231214^^1"
 ^XMB(3.8,190,2,0)="^3.801^6^6^3030827^^^^"
 ^XMB(3.8,190,2,1,0)="When adding a new allergy entry the user is prompted for the reactant.  "
 ^XMB(3.8,190,2,2,0)="If the user cannot find a reactant to match their input then they are "
@@ -1162,17 +1162,15 @@ ZWR
 ^XMB(3.8,219,2,1,0)="Alerts users when status of SD WAIT LIST types(pcmm,clinic,specialty)"
 ^XMB(3.8,219,2,2,0)="change."
 ^XMB(3.8,219,3)=1
-^XMB(3.8,220,0)="XTPM PATCH MONITOR^PU^^5197^3230806^^1"
-^XMB(3.8,220,1,0)="^3.81P^9^5"
+^XMB(3.8,220,0)="XTPM PATCH MONITOR^PU^^5496^3240602^^1"
+^XMB(3.8,220,1,0)="^3.81P^9^4"
 ^XMB(3.8,220,1,1,0)=1
 ^XMB(3.8,220,1,5,0)=65
 ^XMB(3.8,220,1,6,0)="84^"
-^XMB(3.8,220,1,8,0)="89^"
 ^XMB(3.8,220,1,9,0)=90
 ^XMB(3.8,220,1,"B",1,1)=""
 ^XMB(3.8,220,1,"B",65,5)=""
 ^XMB(3.8,220,1,"B",84,6)=""
-^XMB(3.8,220,1,"B",89,8)=""
 ^XMB(3.8,220,1,"B",90,9)=""
 ^XMB(3.8,220,2,0)="^3.801^1^1^3220919^^^^"
 ^XMB(3.8,220,2,1,0)="This mail group receives the delinquent patch notices."
@@ -1183,17 +1181,15 @@ ZWR
 ^XMB(3.8,220,6,4,0)="John.Stewart2@DOMAIN.EXT"
 ^XMB(3.8,220,6,"B","John.Stewart2@DOMAIN.EXT",4)=""
 ^XMB(3.8,220,6,"B","RICHARD.BARFIELD@DOMAIN.EXT",3)=""
-^XMB(3.8,221,0)="XTPM PATCH MONITOR USER^PU^^3373^3230806^0^1"
-^XMB(3.8,221,1,0)="^3.81P^7^5"
+^XMB(3.8,221,0)="XTPM PATCH MONITOR USER^PU^^3632^3240531^0^1"
+^XMB(3.8,221,1,0)="^3.81P^7^4"
 ^XMB(3.8,221,1,1,0)=1
 ^XMB(3.8,221,1,3,0)=65
 ^XMB(3.8,221,1,4,0)="84^"
-^XMB(3.8,221,1,6,0)="89^"
 ^XMB(3.8,221,1,7,0)=90
 ^XMB(3.8,221,1,"B",1,1)=""
 ^XMB(3.8,221,1,"B",65,3)=""
 ^XMB(3.8,221,1,"B",84,4)=""
-^XMB(3.8,221,1,"B",89,6)=""
 ^XMB(3.8,221,1,"B",90,7)=""
 ^XMB(3.8,221,2,0)="^3.801^1^1^3220919^^^^"
 ^XMB(3.8,221,2,1,0)="The regular patch monitor user."
@@ -1289,7 +1285,7 @@ ZWR
 ^XMB(3.8,235,2,1,0)="This mail group contains users responsible for DSS extracts. A message is"
 ^XMB(3.8,235,2,2,0)="sent to this group upon completion of package extracts. "
 ^XMB(3.8,235,3)=1
-^XMB(3.8,236,0)="PATCHES^PU^^10705^3230804"
+^XMB(3.8,236,0)="PATCHES^PU^^11061^3240531"
 ^XMB(3.8,236,1,0)="^3.81P^13^8"
 ^XMB(3.8,236,1,1,0)=1
 ^XMB(3.8,236,1,3,0)=17
@@ -1350,7 +1346,7 @@ ZWR
 ^XMB(3.8,240,2,6,0)="  "
 ^XMB(3.8,240,2,7,0)="PER XU*8*449"
 ^XMB(3.8,240,3)=1
-^XMB(3.8,241,0)="TIU CACS^PU^n^24^3200430^^1"
+^XMB(3.8,241,0)="TIU CACS^PU^n^26^3240307^^1"
 ^XMB(3.8,241,2,0)="^^3^3^3070312^"
 ^XMB(3.8,241,2,1,0)="This cross-reference identifies the people who should receive "
 ^XMB(3.8,241,2,2,0)="informational bulletins concerning the implementation of the Text "
@@ -1481,7 +1477,7 @@ ZWR
 ^XMB(3.8,262,2,2,0)="Enhanced Order Checks (drug-drug interactions, duplicate therapy and dosing"
 ^XMB(3.8,262,2,3,0)="checks) introduced with PRE V. 0.5 utilizing a COTS database."
 ^XMB(3.8,262,3)=17
-^XMB(3.8,263,0)="AUTORENEWAL^PU^y^594^3230806^^17"
+^XMB(3.8,263,0)="AUTORENEWAL^PU^y^893^3240602^^17"
 ^XMB(3.8,263,2,0)="^^4^4^3090713^"
 ^XMB(3.8,263,2,1,0)="This mail group contains the list of users that will received messages "
 ^XMB(3.8,263,2,2,0)="related to the auto-renewal process. The auto-renewal process is "
@@ -1497,7 +1493,7 @@ ZWR
 ^XMB(3.8,265,2,0)="^3.801^1^1^3100825^^^"
 ^XMB(3.8,265,2,1,0)="TO RECEIVE TRICARE RX NOT PROCESSED FOR SITE."
 ^XMB(3.8,265,3)=17
-^XMB(3.8,266,0)="OR CACS^PU^n^7^3221005^^17"
+^XMB(3.8,266,0)="OR CACS^PU^n^8^3231201^^17"
 ^XMB(3.8,266,2,0)="^3.801^2^2^3110816^^^^"
 ^XMB(3.8,266,2,1,0)="This Mail Group identifies the Clinical Applications Coordinators at the "
 ^XMB(3.8,266,2,2,0)="facility."
@@ -1528,7 +1524,7 @@ ZWR
 ^XMB(3.8,270,1,1,0)=17
 ^XMB(3.8,270,1,"B",17,1)=""
 ^XMB(3.8,270,3)=17
-^XMB(3.8,271,0)="MAG_ZZT_Application_process_^PU^^88^3220501"
+^XMB(3.8,271,0)="MAG_ZZT_Application_process_^PU^^97^3240601"
 ^XMB(3.8,271,1,0)="^3.81P^1^1"
 ^XMB(3.8,271,1,1,0)=17
 ^XMB(3.8,271,1,"B",17,1)=""
@@ -1538,7 +1534,7 @@ ZWR
 ^XMB(3.8,272,1,1,0)=17
 ^XMB(3.8,272,1,"B",17,1)=""
 ^XMB(3.8,272,3)=17
-^XMB(3.8,273,0)="MAG_ZZT_Monthly_Image_Site_U^PU^^93^3220501"
+^XMB(3.8,273,0)="MAG_ZZT_Monthly_Image_Site_U^PU^^102^3240601"
 ^XMB(3.8,273,1,0)="^3.81P^1^1"
 ^XMB(3.8,273,1,1,0)=17
 ^XMB(3.8,273,1,"B",17,1)=""
@@ -1548,7 +1544,7 @@ ZWR
 ^XMB(3.8,274,1,1,0)=17
 ^XMB(3.8,274,1,"B",17,1)=""
 ^XMB(3.8,274,3)=17
-^XMB(3.8,275,0)="MAG_ZZT_INSTALLATION^PU^^114^3220425"
+^XMB(3.8,275,0)="MAG_ZZT_INSTALLATION^PU^^117^3240125"
 ^XMB(3.8,275,1,0)="^3.81P^1^1"
 ^XMB(3.8,275,1,1,0)=17
 ^XMB(3.8,275,1,"B",17,1)=""
@@ -1963,12 +1959,6 @@ ZWR
 ^XMB(3.8,341,4,"B",65,1)=""
 ^XMB(3.8,342,0)="IBUC URGENT CARE EXCEPTIONS ^PU^n^^^^"
 ^XMB(3.8,342,3)=65
-^XMB(3.8,343,0)="DSSO HL7 MESSAGES^PU^n^^^^"
-^XMB(3.8,343,2,0)="^3.801^2^2^3160106^^^"
-^XMB(3.8,343,2,1,0)="Success message and errors from Appliance Transaction Extract HL7"
-^XMB(3.8,343,2,2,0)="message generation and processing"
-^XMB(3.8,343,3)=.5
-^XMB(3.8,343,5,0)="^3.811P"
 ^XMB(3.8,344,0)="SDECSETTINGS^PU^n^^^^65"
 ^XMB(3.8,344,2,0)="^3.801^1^1^3190909^^"
 ^XMB(3.8,344,2,1,0)="Used to transmit changes to the SDEC SETTINGS file (#409.98)."
@@ -2058,6 +2048,18 @@ ZWR
 ^XMB(3.8,358,2,1,0)="eMail group to notify designated users via Outlook email of oversized "
 ^XMB(3.8,358,2,2,0)="statements waiting to be printed."
 ^XMB(3.8,358,3)=89
+^XMB(3.8,359,0)="RC REPAY TECH^PU^y^^^^"
+^XMB(3.8,359,2,0)="^^3^3^3220406^"
+^XMB(3.8,359,2,1,0)="This mail group contains external email addresses for technicians"
+^XMB(3.8,359,2,2,0)="who need to receive alerts about AR repayment plans. Mail sent using this "
+^XMB(3.8,359,2,3,0)="group must not contain any PII or PHI."
+^XMB(3.8,359,3)=89
+^XMB(3.8,360,0)="RC REPAY SUP^PU^y^^^^"
+^XMB(3.8,360,2,0)="^^3^3^3220406^"
+^XMB(3.8,360,2,1,0)="This mail group contains external email addresses for supervisors who need"
+^XMB(3.8,360,2,2,0)="to receive alerts about AR repayment plans. Mail sent using this group"
+^XMB(3.8,360,2,3,0)="must not contain any PII or PHI."
+^XMB(3.8,360,3)=89
 ^XMB(3.8,"AB",.5,240,1)=""
 ^XMB(3.8,"AB",.5,319,1)=""
 ^XMB(3.8,"AB",1,3,1)=""
@@ -2129,8 +2131,6 @@ ZWR
 ^XMB(3.8,"AB",86,341,2)=""
 ^XMB(3.8,"AB",89,119,3)=""
 ^XMB(3.8,"AB",89,212,2)=""
-^XMB(3.8,"AB",89,220,8)=""
-^XMB(3.8,"AB",89,221,6)=""
 ^XMB(3.8,"AB",89,236,12)=""
 ^XMB(3.8,"AB",89,240,3)=""
 ^XMB(3.8,"AB",89,355,1)=""
@@ -2409,7 +2409,6 @@ ZWR
 ^XMB(3.8,"B","DSS-SURG",67)=""
 ^XMB(3.8,"B","DSS-TREAT",70)=""
 ^XMB(3.8,"B","DSS-UD",68)=""
-^XMB(3.8,"B","DSSO HL7 MESSAGES",343)=""
 ^XMB(3.8,"B","DVBA C 2507 REROUTE",334)=""
 ^XMB(3.8,"B","DVBA VR VOCREHAB PERSONNEL",301)=""
 ^XMB(3.8,"B","DVBHINQ",18)=""
@@ -2607,6 +2606,8 @@ ZWR
 ^XMB(3.8,"B","RC RC REFERRALS",43)=""
 ^XMB(3.8,"B","RC REPAY PLAN EXTERNAL",354)=""
 ^XMB(3.8,"B","RC REPAY PLANS",134)=""
+^XMB(3.8,"B","RC REPAY SUP",360)=""
+^XMB(3.8,"B","RC REPAY TECH",359)=""
 ^XMB(3.8,"B","RCCPC EXTERNAL",358)=""
 ^XMB(3.8,"B","RCDP PAYMENTS",115)=""
 ^XMB(3.8,"B","RCDPE AUDIT",290)=""

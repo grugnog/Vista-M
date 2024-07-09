@@ -1,5 +1,5 @@
 YTQRQAD3 ;SLC/KCM - RESTful Calls to set/get MHA administrations ; 1/25/2017
- ;;5.01;MENTAL HEALTH;**130,141,158,178,182,181,187,199,207,202,204,208**;Dec 30, 1994;Build 23
+ ;;5.01;MENTAL HEALTH;**130,141,158,178,182,181,187,199,207,202,204,208,221,238,239**;Dec 30, 1994;Build 16
  ;
  ; Reference to ^VA(200) in ICR #10060
  ; Reference to DIQ in ICR #2056
@@ -17,9 +17,17 @@ REPORT(ARGS,RESULTS) ; build report object identified by ARGS("adminId")
 REPORT1(ADMIN,REPORT,TYPE) ; fill in the report text for ADMIN
  N I,REPORT,COMMS,II,CRLF,BCNT,BARR
  N RM
+ N TSTNM,YS,YSDATA,RPRIV
  S RM=79
  I $G(TYPE)'="NOTE" S RM=512
  S CRLF=$C(10)
+ S RPRIV=1
+ I $G(TYPE)'="NOTE" D
+ . K YSDATA
+ . S TSTNM=$P($G(^YTT(601.71,$P(^YTT(601.84,ADMIN,0),U,3),0)),U)
+ . S YS("CODE")=TSTNM D PRIVL^YTAPI5(.YSDATA,.YS)
+ . I $G(YSDATA(1))["[DATA]" I $P($G(YSDATA(2)),U)=0 S RPRIV=0
+ I RPRIV=0 S RESULTS("text","\",1)="This is a restricted report" Q 
  D BLDRPT^YTQRRPT(.REPORT,ADMIN,RM)
  S BCNT=0 K BARR
  S I=0 F  S I=$O(REPORT(I)) Q:+I=0  D
@@ -112,9 +120,20 @@ ALWNOTE(ADMIN) ; return "true" if note could/should be saved
 ALWN2(TEST,ADMIN) ;Entry point if TEST is input
  ;ADMIN - If specific ADMIN is to be checked
  N TITLE,CONSULT,Y,YSISC,YSTITLE
+ N YSLEG,YSCODE,YSET,YSLEGP
  S ADMIN=+$G(ADMIN)
+ ;Look at test definition first
  I $L($P($G(^YTT(601.71,TEST,2)),U)) Q "false"       ; R PRIVILEGE
  I $P($G(^YTT(601.71,TEST,8)),U,8)'="Y" Q "false"    ; gen note
+ ;S YSLEGP=""  ;Handle Legacy Instruments - ref YTAPI5
+ ;S YSLEG=$P($G(^YTT(601.71,TEST,8)),U,3)
+ ;I YSLEG="Y" D
+ ;. S YSCODE=$P(^YTT(601.71,TEST,0),U)
+ ;. S YSET=$O(^YTT(601,"B",YSCODE,""))
+ ;. I $P(^YTT(601,YSET,0),U,10)="Y"!(YSCODE="GAF")!(YSCODE="ASI") S YSLEGP="true" Q
+ ;. I $P(^YTT(601,YSET,0),U,9)="I" S YSLEGP="true" Q
+ ;. S YSLEGP="false3"
+ ;I +ADMIN=0,(YSLEGP]"") Q YSLEGP  ;No ADMIN ID, just look at test definition.
  S CONSULT=""
  I ADMIN'=0 S CONSULT=$P(^YTT(601.84,ADMIN,0),U,15)
  I CONSULT D  I 1
@@ -170,6 +189,7 @@ NEEDCSGN(ARGS,RESULTS) ; GET /api/mha/permission/needcosign/:userId  208
  ; Returns "false" if userId does NOT require a cosigner
  N YSPERSON,YSTITLE,YSCREQ,INSTS,TEST,II,CONSULT,YSCREQ,CSLIST,INAM,CFLG
  S INSTS=$G(ARGS("instrumentList"))
+ S:INSTS="" INSTS=$G(ARGS("instrumentlist"))  ;If query param, xlated to lower
  S YSPERSON=$G(ARGS("userId"))
  S CFLG="false"
  I INSTS="" D  Q
@@ -177,6 +197,7 @@ NEEDCSGN(ARGS,RESULTS) ; GET /api/mha/permission/needcosign/:userId  208
  . D REQCOS^TIUSRVA(.YSCREQ,YSTITLE,"",YSPERSON,"")
  . S RESULTS("userId")=YSPERSON
  . S RESULTS("needCosigner")=$S(YSCREQ:"true",1:"false")
+ . S RESULTS("allowNote")=""  ;Unknown without instrument list
  . Q
  ;I INSTS="" D SETERROR^YTQRUTL(404,"Instrument List not sent. ") QUIT
  S CONSULT=$S($G(ARGS("consult"))]"":1,1:"")
@@ -192,9 +213,7 @@ NEEDCSGN(ARGS,RESULTS) ; GET /api/mha/permission/needcosign/:userId  208
  . I CSLIST="true" S CFLG="true"
  . S RESULTS("instrumentList",II,"instName")=INAM
  . S RESULTS("instrumentList",II,"needCosign")=CSLIST
- K RESULTS  ;
- S RESULTS("userId")=YSPERSON
- S RESULTS("needCosigner")=CFLG
+ . S RESULTS("instrumentList",II,"allowNote")=$$ALWN2(TEST)
  Q
  ;
 SETCOM(ARGS,DATA) ; save comment in Instrument Admin (F601.84,f10) using ARGS("adminId")

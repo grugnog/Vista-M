@@ -1,5 +1,5 @@
 PSODIR5 ;DAL/JCH - ASK FOR DEA RX DATA ;11/08/21 4:03pm
- ;;7.0;OUTPATIENT PHARMACY;**545**;DEC 1997;Build 270
+ ;;7.0;OUTPATIENT PHARMACY;**545,731,743**;DEC 1997;Build 24
  ;External reference PSDRUG( supported by DBIA 221
  ;External reference PS(50.7 supported by DBIA 2223
  ;External reference to VA(200 is supported by DBIA 10060
@@ -27,7 +27,7 @@ DISP3(IEN,ARYSEL,PSORX) ;displays dea#,detox#,address
  D EN^DIQ1
  W !
  I $D(^UTILITY("DIQ1",$J)) D
- . S DISPFLD=0 F  S DISPFLD=$O(^UTILITY("DIQ1",$J,8991.9,DA,DISPFLD)) Q:'DISPFLD  D
+ . S DISPFLD=0 F  S DISPFLD=$O(^UTILITY("DIQ1",$J,8991.9,DA,DISPFLD)) Q:'DISPFLD  I DISPFLD'=.03 D  ;P731 detox/x-waiver removal
  .. S DISPVAL=$G(^UTILITY("DIQ1",$J,8991.9,DA,DISPFLD))
  .. I DISPFLD=.01,$P(DEARY(2,ARYSEL),U,3)]"" S DISPVAL=DISPVAL_"-"_$P(DEARY(2,ARYSEL),U,3)
  .. I DISPFLD=.03 S DISPVAL=$$DETOX^XUSER(PROVIEN)
@@ -79,7 +79,7 @@ WM3(SCHED) ; Warning message
  ;
 INDISP(PROVIEN,DEARY,PSORX) ;displays institutional dea#va#, address of institution
  W !!,"DEA NUMBER: "_DEARY
- I $G(PSORX("DETX"))]"" W !,"DETOX NUMBER: "_PSORX("DETX")
+ ;I $G(PSORX("DETX"))]"" W !,"DETOX NUMBER: "_PSORX("DETX") ;P731 detox/x-waiver removal
  N MADD1,MADD2,MCITY,MSTATE,MZIP
  S MADD1=$$GET1^DIQ(4,DUZ(2),1.01),MADD2=$$GET1^DIQ(4,DUZ(2),1.02)
  S MCITY=$$GET1^DIQ(4,DUZ(2),1.03),MSTATE=$$GET1^DIQ(4,DUZ(2),.02)
@@ -133,7 +133,7 @@ DEALIST(RET,NPIEN,SDEA)  ; -- returns the DEA list
  . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_NPDEADAT(200.5321,IENS,.01)_"^"          ; NEW PERSON DEA NUMBER
  . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_NPDEADAT(200.5321,IENS,.02)_"^"          ; INDIVIDUAL DEA SUFFIX
  . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_DNDEADAT(8991.9,DNDEAIEN_",",1.6)_"^"    ; STATE
- . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_DNDEADAT(8991.9,DNDEAIEN_",",.03)_"^"    ; DETOX NUMBER
+ . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_""_"^"                                   ; DETOX NUMBER  ;P731 detox/x-waiver removal
  . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_DNDEADAT(8991.9,DNDEAIEN_",",.04)_"^"    ; EXPIRATION DATE EXTERNAL
  . S RET(NODE1,CNT(NODE1))=RET(NODE1,CNT(NODE1))_EXPDATEI_"^"                             ; EXPIRATION DATE INTERNAL
  S RET(0)=(CNT-1)_"^"_(CNT(2)+CNT(3))_"^"_CNT(1)
@@ -160,7 +160,7 @@ SLDEA(PROVIEN,PSORX,DFLTDEA,PSODRIEN) ;
  I $P(DEARY(0),U)=0&(('$L(VA))!'$$VAPROV(PROVIEN)) D WM1 Q ""
  ;no DEA# then use VA#
  I ($P(DEARY(0),U)=0)&($L(VA))&$$VAPROV(PROVIEN) Q $$USEVA(PROVIEN,VA,.PSORX)
- ;DEA# is expired, check Failover flag
+ ;DEA# is expired, check Failover flag.
  I $P(DEARY(0),U)=$P(DEARY(0),U,3)&('$L(VA)!'$$VAPROV(PROVIEN)) D WM2,DISPONLY(.DEARY) Q DEASEL
  I $P(DEARY(0),U)=$P(DEARY(0),U,3)&($$VAPROV(PROVIEN)) S DEASEL=$$FAILOVER(.DEARY,VA,SDEA) Q DEASEL
  I $P(DEARY(0),U)=1&($P(DEARY(0),U,2))=1&($D(DEARY(2))) S Y=1 D DISP3($P(DEARY(2,1),U),Y,.PSORX) Q PSORX("RXDEA")
@@ -168,6 +168,8 @@ SLDEA(PROVIEN,PSORX,DFLTDEA,PSODRIEN) ;
  . W !,"Provider not authorized to write Federal Schedule "_SDEA_" prescriptions."
  . W !,"Please contact the provider.",!
  . D DISPONLY(.DEARY)
+ ;743 - One active DEA# with valid schedule and another DEA# that expired more than a year ago
+ I '$D(DEARY(1)),('$D(DEARY(3))),($O(DEARY(2,""))=$O(DEARY(2,""),-1)) S Y=1 Q $$DISP3($P(DEARY(2,1),U),Y,.PSORX)
  I $P(DEARY(0),U,1)>1 D
  . Q:$D(DEARY(3))&('$D(DEARY(2)))
  . W !!,"This provider has multiple DEA registrations." W !,"Please select the correct DEA number for the prescription being entered"

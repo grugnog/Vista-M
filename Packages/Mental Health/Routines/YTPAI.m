@@ -1,5 +1,5 @@
 YTPAI ;ASF/ALB- PAI TEST ;7/14/00  10:26
- ;;5.01;MENTAL HEALTH;**10,66**;Dec 30, 1994
+ ;;5.01;MENTAL HEALTH;**10,66,221,238**;Dec 30, 1994;Build 25
  ;
  ;Reference to $$SQRT^XLFMTH supported by IA #10105
  ;
@@ -70,7 +70,7 @@ ADDIT ;additional indexes
  I $P(S,U,14)-$P(S,U,11)>9 S YSINDX=YSINDX+1
  I $P(S,U,52)-$P(S,U,46)>14 S YSINDX=YSINDX+1
  I $P(S,U,22)-$P(S,U,49)>9 S YSINDX=YSINDX+1
- W !?2,"Defensivness Index = ",$J(YSINDX,3)
+ W !?2,"Defensiveness Index = ",$J(YSINDX,3)
 XBAR ;
  S YSINDX=0 F I=5,9,13,17,21,25,29,33,38,42,43 S YSINDX=YSINDX+$P(S,U,I)
  W !?2,"Mean Clinical Elevation = ",$J(YSINDX/11,4,0)
@@ -106,7 +106,7 @@ CRIT ;
  W !!,"Potential for Aggression" F I=21,61,101,181 D CRITW
  W !!,"Substance Abuse" F I=55,222 D CRITW
  W !!,"Potential Malingering" F I=9,49,129,249 D CRITW
- W !!,"Ureliability/Resistance" F I=31,71,311 D CRITW
+ W !!,"Unreliability/Resistance" F I=31,71,311 D CRITW
  W !!,"Traumatic Stressors" F I=34,114,194,274 D CRITW
  Q
 CRITW ; write critical items
