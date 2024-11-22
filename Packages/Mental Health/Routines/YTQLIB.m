@@ -1,5 +1,7 @@
-YTQLIB ;ASF/ALB MHQ LIBRARY FUNCTIONS ; 4/4/07 2:00pm
- ;;5.01;MENTAL HEALTH;**85**;Dec 30, 1994;Build 48
+YTQLIB ;ASF/ALB - MHQ LIBRARY FUNCTIONS ;Jun 26, 2024@09:53:51
+ ;;5.01;MENTAL HEALTH;**85,252**;Dec 30, 1994;Build 3
+ ;
+ ;
  Q
 TSLIST(YSDATA) ;list tests and surveys
  N YSTESTN,YSTEST,N
@@ -13,13 +15,17 @@ TSLIST(YSDATA) ;list tests and surveys
  ;
 NEW(YSFILEN) ;Adding New Entries - return an internal number - EXTRINSIC FUNCTION
  ;if $D YSPROG then National and pointers less than 100,000 else pointers greater than 100,000
+ ;
+ ; Calling application must lock file header node (^YTT(YSFILEN,0)) before calling this function,
+ ; and needs to file the data using the returned IEN before releasing the lock.
+ ;
  N MHQ2X,YS
  K YSPROG
  S:$D(^XUSEC("YSPROG",DUZ)) YSPROG=1
  S YS=$P($G(^YTT(YSFILEN,0)),U,3) S:YS<1 YS=1
  I $D(YSPROG) S YS=$S(YS<100000:YS,1:1)
  I '$D(YSPROG) S YS=$S(YS>100000:YS,1:100000)
- F MHQ2X=YS:1 I '$D(^YTT(YSFILEN,MHQ2X)) L ^YTT(YSFILEN,MHQ2X):0 Q:$T
+ F MHQ2X=YS:1 I '$D(^YTT(YSFILEN,MHQ2X)) QUIT
  Q MHQ2X
  ;
 ADMCK(YSDATA,YS) ;check administration

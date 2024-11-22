@@ -1,4 +1,4 @@
-DGRPTX28 ; ;07/06/22
+DGRPTX28 ; ;10/30/24
  S X=DG(DQ),DIC=DIE
  X ^DD(2,.301,1,1,1.3) I X S X=DIV S Y(1)=$S($D(^DPT(D0,.3)):^(.3),1:"") S X=$P(Y(1),U,2),X=X S DIU=X K Y S X="" X ^DD(2,.301,1,1,1.4)
  S X=DG(DQ),DIC=DIE

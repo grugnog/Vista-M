@@ -1,4 +1,4 @@
-SDBT ; GENERATED FROM 'SDB' INPUT TEMPLATE(#485), FILE 44;10/26/23
+SDBT ; GENERATED FROM 'SDB' INPUT TEMPLATE(#485), FILE 44;09/03/24
  D DE G BEGIN
 DE S DIE="^SC(",DIC=DIE,DP=44,DL=1,DIEL=0,DU="" K DG,DE,DB Q:$O(^SC(DA,""))=""
  I $D(^(0)) S %Z=^(0) S %=$P(%Z,U,1) S:%]"" DE(1)=% S %=$P(%Z,U,2) S:%]"" DE(2)=% S %=$P(%Z,U,7) S:%]"" DE(17)=% S %=$P(%Z,U,8) S:%]"" DE(9)=% S %=$P(%Z,U,11) S:%]"" DE(46)=% S %=$P(%Z,U,15) S:%]"" DE(15)=% S %=$P(%Z,U,17) S:%]"" DE(10)=%
@@ -8,7 +8,7 @@ DE S DIE="^SC(",DIC=DIE,DP=44,DL=1,DIEL=0,DU="" K DG,DE,DB Q:$O(^SC(DA,""))=""
  I $D(^(99.1)) S %Z=^(99.1) S %=$P(%Z,U,1) S:%]"" DE(22)=%
  I $D(^("AT")) S %Z=^("AT") S %=$P(%Z,U,1) S:%]"" DE(18)=%
  I $D(^("LTR")) S %Z=^("LTR") S %=$P(%Z,U,1) S:%]"" DE(26)=% S %=$P(%Z,U,2) S:%]"" DE(27)=% S %=$P(%Z,U,3) S:%]"" DE(28)=% S %=$P(%Z,U,4) S:%]"" DE(29)=%
- I $D(^("PA")) S %Z=^("PA") S %=$P(%Z,U,1) S:%]"" DE(3)=% S %=$P(%Z,U,2) S:%]"" DE(5)=% S %=$P(%Z,U,3) S:%]"" DE(7)=%
+ I $D(^("PA")) S %Z=^("PA") S %=$P(%Z,U,1) S:%]"" DE(3)=% S %=$P(%Z,U,2) S:%]"" DE(5)=% S %=$P(%Z,U,3) S:%]"" DE(7)=% S %=$P(%Z,U,4) S:%]"" DE(57)=%
  I $D(^("PC")) S %Z=^("PC") S %=$P(%Z,U,1) S:%]"" DE(32)=%
  I $D(^("PS")) S %Z=^("PS") S %=$P(%Z,U,1) S:%]"" DE(25)=%
  I $D(^("RAD")) S %Z=^("RAD") S %=$P(%Z,U,1) S:%]"" DE(24)=%
@@ -488,4 +488,10 @@ X55 S ZSI=$S(X=1!(X=2)!(X=3)!(X=4)!(X=6):60/X,1:0),SDLA=$S('$D(^SC(DA,"SL")):0,1
  Q
  ;
 56 S DQ=57 ;@99
-57 G 0^DIE17
+57 S DW="PA;4",DV="St11",DU="",DIFLD=63,DLB=$$LABEL^DIALOGZ(DP,DIFLD)
+ G RE
+X57 D READSET^DIED(.X,"1:YES;0:NO")
+ I $D(X),X'?.ANP K X
+ Q
+ ;
+58 G 0^DIE17
