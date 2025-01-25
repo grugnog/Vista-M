@@ -59336,7 +59336,7 @@ ZWR
 ^PXD(811.2,146,20,"AE","CPT",98966)="98966^1"
 ^PXD(811.2,146,20,"ATC","Telephone Assessment/Management","CPT")="1^1"
 ^PXD(811.2,146,20,"ATCC","Telephone Assessment/Management","CPT",98966)=1
-^PXD(811.2,146,20,"AUID","CPT",98966,3080101,"DT")="98966^Telephone Assessment and Management Service Provided by a Qualified Nonphysician Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 5-10 minutes of Medical Discussion"
+^PXD(811.2,146,20,"AUID","CPT",98966,3080101,"DT")="98966^Telephone Assessment and Management Service Provided by a Nonphysician Qualified Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 5-10 minutes of Medical Discussion"
 ^PXD(811.2,146,20,"B","Telephone Assessment/Management",1)=""
 ^PXD(811.2,146,30,0)="^811.24A^1^1"
 ^PXD(811.2,146,30,1,0)="98966^CPT"
@@ -59407,7 +59407,7 @@ ZWR
 ^PXD(811.2,147,20,"AE","CPT",98967)="98967^1"
 ^PXD(811.2,147,20,"ATC","Telephone Assessment/Management","CPT")="1^1"
 ^PXD(811.2,147,20,"ATCC","Telephone Assessment/Management","CPT",98967)=1
-^PXD(811.2,147,20,"AUID","CPT",98967,3080101,"DT")="98967^Telephone Assessment and Management Service Provided by a Qualified Nonphysician Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 11-20 minutes of Medical Discussion"
+^PXD(811.2,147,20,"AUID","CPT",98967,3080101,"DT")="98967^Telephone Assessment and Management Service Provided by a Nonphysician Qualified Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 11-20 minutes of Medical Discussion"
 ^PXD(811.2,147,20,"B","Telephone Assessment/Management",1)=""
 ^PXD(811.2,147,30,0)="^811.24A^1^1"
 ^PXD(811.2,147,30,1,0)="98967^CPT"
@@ -59478,7 +59478,7 @@ ZWR
 ^PXD(811.2,148,20,"AE","CPT",98968)="98968^1"
 ^PXD(811.2,148,20,"ATC","Telephone Assessment/Management","CPT")="1^1"
 ^PXD(811.2,148,20,"ATCC","Telephone Assessment/Management","CPT",98968)=1
-^PXD(811.2,148,20,"AUID","CPT",98968,3080101,"DT")="98968^Telephone Assessment and Management Service Provided by a Qualified Nonphysician Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 21-30 minutes of Medical Discussion"
+^PXD(811.2,148,20,"AUID","CPT",98968,3080101,"DT")="98968^Telephone Assessment and Management Service Provided by a Nonphysician Qualified Health Care Professional to an Established Patient, Parent, or Guardian not Originating from a Related Assessment and Management Service Provided within the Previous 7 Days NOR Leading to an Assessment and Management Service or Procedure within the Next 24 hours or Soonest Available Appointment; 21-30 minutes of Medical Discussion"
 ^PXD(811.2,148,20,"B","Telephone Assessment/Management",1)=""
 ^PXD(811.2,148,30,0)="^811.24A^1^1"
 ^PXD(811.2,148,30,1,0)="98968^CPT"

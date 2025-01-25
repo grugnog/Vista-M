@@ -697,7 +697,7 @@ ZWR
 ^XMB(3.8,140,2,0)="^^2^2^3010313^"
 ^XMB(3.8,140,2,1,0)="Mail group to send messages regarding accessing images on offline"
 ^XMB(3.8,140,2,2,0)="jukebox platters."
-^XMB(3.8,141,0)="MAG SERVER^PU^y^519^3241101^0"
+^XMB(3.8,141,0)="MAG SERVER^PU^y^524^3250101^0"
 ^XMB(3.8,141,1,0)="^3.81P^1^1"
 ^XMB(3.8,141,1,1,0)=1
 ^XMB(3.8,141,1,"B",1,1)=""
@@ -1162,7 +1162,7 @@ ZWR
 ^XMB(3.8,219,2,1,0)="Alerts users when status of SD WAIT LIST types(pcmm,clinic,specialty)"
 ^XMB(3.8,219,2,2,0)="change."
 ^XMB(3.8,219,3)=1
-^XMB(3.8,220,0)="XTPM PATCH MONITOR^PU^^5657^3241110^^1"
+^XMB(3.8,220,0)="XTPM PATCH MONITOR^PU^^5713^3250105^^1"
 ^XMB(3.8,220,1,0)="^3.81P^9^4"
 ^XMB(3.8,220,1,1,0)=1
 ^XMB(3.8,220,1,5,0)=65
@@ -1181,7 +1181,7 @@ ZWR
 ^XMB(3.8,220,6,4,0)="John.Stewart2@DOMAIN.EXT"
 ^XMB(3.8,220,6,"B","John.Stewart2@DOMAIN.EXT",4)=""
 ^XMB(3.8,220,6,"B","RICHARD.BARFIELD@DOMAIN.EXT",3)=""
-^XMB(3.8,221,0)="XTPM PATCH MONITOR USER^PU^^3779^3241110^0^1"
+^XMB(3.8,221,0)="XTPM PATCH MONITOR USER^PU^^3828^3250105^0^1"
 ^XMB(3.8,221,1,0)="^3.81P^7^4"
 ^XMB(3.8,221,1,1,0)=1
 ^XMB(3.8,221,1,3,0)=65
@@ -1285,7 +1285,7 @@ ZWR
 ^XMB(3.8,235,2,1,0)="This mail group contains users responsible for DSS extracts. A message is"
 ^XMB(3.8,235,2,2,0)="sent to this group upon completion of package extracts. "
 ^XMB(3.8,235,3)=1
-^XMB(3.8,236,0)="PATCHES^PU^^11260^3241108"
+^XMB(3.8,236,0)="PATCHES^PU^^11297^3250103"
 ^XMB(3.8,236,1,0)="^3.81P^13^8"
 ^XMB(3.8,236,1,1,0)=1
 ^XMB(3.8,236,1,3,0)=17
@@ -1477,7 +1477,7 @@ ZWR
 ^XMB(3.8,262,2,2,0)="Enhanced Order Checks (drug-drug interactions, duplicate therapy and dosing"
 ^XMB(3.8,262,2,3,0)="checks) introduced with PRE V. 0.5 utilizing a COTS database."
 ^XMB(3.8,262,3)=17
-^XMB(3.8,263,0)="AUTORENEWAL^PU^y^1054^3241110^^17"
+^XMB(3.8,263,0)="AUTORENEWAL^PU^y^1110^3250105^^17"
 ^XMB(3.8,263,2,0)="^^4^4^3090713^"
 ^XMB(3.8,263,2,1,0)="This mail group contains the list of users that will received messages "
 ^XMB(3.8,263,2,2,0)="related to the auto-renewal process. The auto-renewal process is "
@@ -1524,7 +1524,7 @@ ZWR
 ^XMB(3.8,270,1,1,0)=17
 ^XMB(3.8,270,1,"B",17,1)=""
 ^XMB(3.8,270,3)=17
-^XMB(3.8,271,0)="MAG_ZZT_Application_process_^PU^^102^3241101"
+^XMB(3.8,271,0)="MAG_ZZT_Application_process_^PU^^104^3250101"
 ^XMB(3.8,271,1,0)="^3.81P^1^1"
 ^XMB(3.8,271,1,1,0)=17
 ^XMB(3.8,271,1,"B",17,1)=""
@@ -1534,7 +1534,7 @@ ZWR
 ^XMB(3.8,272,1,1,0)=17
 ^XMB(3.8,272,1,"B",17,1)=""
 ^XMB(3.8,272,3)=17
-^XMB(3.8,273,0)="MAG_ZZT_Monthly_Image_Site_U^PU^^107^3241101"
+^XMB(3.8,273,0)="MAG_ZZT_Monthly_Image_Site_U^PU^^109^3250101"
 ^XMB(3.8,273,1,0)="^3.81P^1^1"
 ^XMB(3.8,273,1,1,0)=17
 ^XMB(3.8,273,1,"B",17,1)=""
@@ -1544,7 +1544,7 @@ ZWR
 ^XMB(3.8,274,1,1,0)=17
 ^XMB(3.8,274,1,"B",17,1)=""
 ^XMB(3.8,274,3)=17
-^XMB(3.8,275,0)="MAG_ZZT_INSTALLATION^PU^^119^3241030"
+^XMB(3.8,275,0)="MAG_ZZT_INSTALLATION^PU^^120^3241115"
 ^XMB(3.8,275,1,0)="^3.81P^1^1"
 ^XMB(3.8,275,1,1,0)=17
 ^XMB(3.8,275,1,"B",17,1)=""
